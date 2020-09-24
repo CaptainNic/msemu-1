@@ -1,4 +1,12 @@
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	set (PLATFORM_SOURCES
+		platform/windows/getopt.c
+		platform/windows/strndup.c
+	)
+endif ()
+
 add_executable(msemu
+	${PLATFORM_SOURCES}
 	debug.c
 	flashops.c
 	main.c
@@ -6,11 +14,16 @@ add_executable(msemu
 	ui.c
 )
 
+target_include_directories(
+	msemu PRIVATE
+	../external/sdl2/include
+	../external/z80ex/include
+)
+
 target_link_libraries(msemu
 	SDL2
 	SDL2main
-	SDL2_gfx
-	SDL2_ttf
+	#SDL2_ttf
 	z80ex
 	z80ex_dasm
 )

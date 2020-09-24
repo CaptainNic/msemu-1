@@ -74,7 +74,7 @@ Things NOT emulated:
 
 
 ### Building
-This project currently requires libz80ex, SDL 1.2 and SDL-gfx 1.2.
+This project currently requires libz80ex, SDL2, and SDL2_TTF, which are built from source.
 
 To build, cmake 3.7+ is required.
 

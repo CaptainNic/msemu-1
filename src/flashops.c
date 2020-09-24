@@ -100,6 +100,16 @@ void df_set_rnd_serial(ms_ctx *ms)
 
 	buf = (uint8_t *)(ms->dev_map[DF] + DF_SN_OFFS);
 
+#if defined(_MSC_VER)
+	srand((unsigned int)time(NULL));
+	for (i = 0; i < 15; i++) {
+		do {
+			rnd = rand();
+		} while (!isalnum(rnd));
+		*buf = rnd;
+		buf++;
+	}
+#else
 	srandom((unsigned int)time(NULL));
 	for (i = 0; i < 15; i++) {
 		do {
@@ -108,6 +118,7 @@ void df_set_rnd_serial(ms_ctx *ms)
 		*buf = rnd;
 		buf++;
 	}
+#endif
 
 	*buf = '-';
 }

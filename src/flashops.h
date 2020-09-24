@@ -5,6 +5,11 @@
 #include <stdio.h>
 #include "msemu.h"
 
+#if defined(_MSC_VER)
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 #define DF_SN_OFFS	0x7FFC8
 
 /**

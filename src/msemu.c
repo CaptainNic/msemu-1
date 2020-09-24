@@ -13,9 +13,9 @@
 #include "debug.h"
 #include "sizes.h"
 
-#include <SDL2/SDL.h>
-#include <z80ex/z80ex.h>
-#include <z80ex/z80ex_dasm.h>
+#include <SDL.h>
+#include <z80ex.h>
+#include <z80ex_dasm.h>
 
 // Default entry of color palette to draw Mailstation LCD with
 uint8_t LCD_fg_color = 3;  // LCD black

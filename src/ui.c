@@ -2,8 +2,8 @@
 #include "ui.h"
 
 #include "msemu.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+// #include <SDL2/SDL_ttf.h>
 
 // Main window
 SDL_Window* window = NULL;
@@ -16,7 +16,7 @@ SDL_Surface* splashscreen_surface = NULL;
 SDL_Texture* splashscreen_tex = NULL;
 SDL_Rect splashscreen_srcRect = { 0, 0, 0, 0 };
 SDL_Rect splashscreen_dstRect = { 0, 0, 0, 0 };
-TTF_Font* font = NULL;
+// TTF_Font* font = NULL;
 SDL_Color font_color = { 0xff, 0xff, 0x00 }; /* Yellow */
 int splashscreen_show = 0;
 
@@ -35,10 +35,10 @@ void ui_init(uint32_t* ms_lcd_buffer)
 		abort();
 	}
 
-	if (TTF_Init() != 0) {
-		printf("Failed to initialize SDL_TTF: %s\n", TTF_GetError());
-		abort();
-	}
+	// if (TTF_Init() != 0) {
+	// 	printf("Failed to initialize SDL_TTF: %s\n", TTF_GetError());
+	// 	abort();
+	// }
 
 	/* Create/configure window & renderer */
 	window = SDL_CreateWindow(
@@ -55,35 +55,35 @@ void ui_init(uint32_t* ms_lcd_buffer)
 	SDL_RenderSetLogicalSize(renderer, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
 	/* Load font */
-	font = TTF_OpenFont("fonts/kongtext.ttf", 16);
-	if (!font) {
-		printf("Failed to load font: %s\n", TTF_GetError());
-		abort();
-	}
+	// font = TTF_OpenFont("fonts/kongtext.ttf", 16);
+	// if (!font) {
+	// 	printf("Failed to load font: %s\n", TTF_GetError());
+	// 	abort();
+	// }
 
 	/* Prepare the splashscreen surface */
 	/* TODO: I don't like this in here, the version is a whole project
 	 * identifier and buried in UI seems silly. Need to dig out a not
 	 * terrible way to do this with CMake.
 	 */
-	splashscreen_surface = TTF_RenderText_Blended_Wrapped(
-		font, "Mailstation Emulator v0.2\n\n" \
-			"F12 to Start", font_color, LOGICAL_WIDTH);
-	if (!splashscreen_surface) {
-		printf("Error creating splashscreen surface: %s\n", TTF_GetError());
-		abort();
-	}
+	// splashscreen_surface = TTF_RenderText_Blended_Wrapped(
+	// 	font, "Mailstation Emulator v0.2\n\n" \
+	// 		"F12 to Start", font_color, LOGICAL_WIDTH);
+	// if (!splashscreen_surface) {
+	// 	printf("Error creating splashscreen surface: %s\n", TTF_GetError());
+	// 	abort();
+	// }
 
-	splashscreen_tex = SDL_CreateTextureFromSurface(renderer, splashscreen_surface);
-	if (!splashscreen_tex) {
-		printf("Error creating splashscreen texture: %s\n", SDL_GetError());
-		abort();
-	}
+	// splashscreen_tex = SDL_CreateTextureFromSurface(renderer, splashscreen_surface);
+	// if (!splashscreen_tex) {
+	// 	printf("Error creating splashscreen texture: %s\n", SDL_GetError());
+	// 	abort();
+	// }
 
-	splashscreen_srcRect.w = splashscreen_surface->w;
-	splashscreen_srcRect.h = splashscreen_surface->h;
-	splashscreen_dstRect.w = splashscreen_surface->w;
-	splashscreen_dstRect.h = splashscreen_surface->h;
+	//splashscreen_srcRect.w = splashscreen_surface->w;
+	//splashscreen_srcRect.h = splashscreen_surface->h;
+	//splashscreen_dstRect.w = splashscreen_surface->w;
+	//splashscreen_dstRect.h = splashscreen_surface->h;
 
 	/* Prepare the MailStation LCD surface */
 	lcd_surface = SDL_CreateRGBSurfaceFrom(ms_lcd_buffer, 320, 240, 32, 1280, 0,0,0,0);
@@ -129,13 +129,13 @@ void ui_render()
 			&lcd_srcRect, &lcd_dstRect);
 	}
 
-	// We're rendering back to front, so we always check
-	// this last so the splash screen always appears on top.
-	if (splashscreen_show) {
-		SDL_RenderCopy(
-			renderer, splashscreen_tex,
-			&splashscreen_srcRect, &splashscreen_dstRect);
-	}
+	//// We're rendering back to front, so we always check
+	//// this last so the splash screen always appears on top.
+	//if (splashscreen_show) {
+	//	SDL_RenderCopy(
+	//		renderer, splashscreen_tex,
+	//		&splashscreen_srcRect, &splashscreen_dstRect);
+	//}
 
 	SDL_RenderPresent(renderer);
 }

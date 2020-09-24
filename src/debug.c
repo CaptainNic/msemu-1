@@ -8,8 +8,8 @@
 #include "debug.h"
 #include "msemu.h"
 
-#include <z80ex/z80ex_dasm.h>
-#include <z80ex/z80ex.h>
+#include <z80ex_dasm.h>
+#include <z80ex.h>
 
 enum arguments {
 	no_arg = 0,
@@ -40,7 +40,7 @@ z80ex_mread_cb ms_mread;
 
 static ms_ctx *ms;
 static debug_bp bp;
-static struct sigaction sigact;
+// static struct sigaction sigact;
 extern const char* const ms_dev_map_text[];
 
 static int dbg_level;
@@ -224,8 +224,8 @@ void debug_init(ms_ctx* msctx, z80ex_mread_cb z80ex_mread)
 	bp.hits = 0;
 
 	// Override ctrl+c to drop to debug console
-	sigact.sa_handler = sigint;
-	sigaction(SIGINT, &sigact, NULL);
+	// sigact.sa_handler = sigint;
+	// sigaction(SIGINT, &sigact, NULL);
 }
 
 int debug_prompt(void)
@@ -245,7 +245,7 @@ int debug_prompt(void)
 
 	while (1) {
 		printf("> ");
-		bzero(&buf, sizeof(buf));
+		memset(&buf, 0, sizeof(buf));
 		fgets(buf, sizeof(buf), stdin);
 
 		i = NUMCMDS;
@@ -285,18 +285,18 @@ Z80EX_BYTE debug_dasm_readbyte (Z80EX_WORD addr, void *user_data)
 	return val;
 }
 
+#define DASM_BUFFER_LEN 256
 void debug_dasm(void)
 {
-        int dasm_buffer_len = 256;
-        char dasm_buffer[dasm_buffer_len];
-        int dasm_tstates = 0;
-        int dasm_tstates2 = 0;
+	char dasm_buffer[DASM_BUFFER_LEN];
+	int dasm_tstates = 0;
+	int dasm_tstates2 = 0;
 
 	if (!debug_isbreak() && !(dbg_level & LOG_TRACE)) return;
 
-	bzero(&dasm_buffer, dasm_buffer_len);
+	memset(&dasm_buffer, 0, DASM_BUFFER_LEN);
 	z80ex_dasm(
-	  &dasm_buffer[0], dasm_buffer_len,
+	  &dasm_buffer[0], DASM_BUFFER_LEN,
 	  0,
 	  &dasm_tstates, &dasm_tstates2,
 	  debug_dasm_readbyte,

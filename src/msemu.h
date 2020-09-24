@@ -1,7 +1,8 @@
 #ifndef __MSEMU_H_
 #define __MSEMU_H_
 
-#include <z80ex/z80ex.h>
+#include <stdint.h>
+#include <z80ex.h>
 
 // Return codes
 #define MS_OK    0

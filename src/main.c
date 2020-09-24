@@ -14,7 +14,7 @@
 	#include <getopt.h>
 #endif
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 void usage(const char *path_arg, const char *cf_path, const char *df_path)
 {

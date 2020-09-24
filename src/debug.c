@@ -8,8 +8,8 @@
 #include "debug.h"
 #include "msemu.h"
 
-#include <z80ex_dasm.h>
-#include <z80ex.h>
+#include <z80ex/z80ex_dasm.h>
+#include <z80ex/z80ex.h>
 
 enum arguments {
 	no_arg = 0,

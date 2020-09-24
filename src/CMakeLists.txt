@@ -16,8 +16,7 @@ add_executable(msemu
 
 target_include_directories(
 	msemu PRIVATE
-	../external/sdl2/include
-	../external/z80ex/include
+	${CMAKE_BINARY_DIR}/include
 )
 
 target_link_libraries(msemu

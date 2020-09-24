@@ -2,7 +2,7 @@
 #include "ui.h"
 
 #include "msemu.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 // #include <SDL2/SDL_ttf.h>
 
 // Main window

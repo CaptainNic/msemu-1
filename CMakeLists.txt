@@ -39,7 +39,8 @@ if (BUILD_DEPENDENCIES)
             endif ()
         endif ()
     endif ()
+    
+    add_subdirectory(external)
 endif ()
 
 add_subdirectory(src)
-add_subdirectory(external)

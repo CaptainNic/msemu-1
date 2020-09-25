@@ -1,13 +1,51 @@
-if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sdl2/CMakeLists.txt")
-    message(FATAL_ERROR "submodule sdl2 is not initialized!")
-endif ()
-add_subdirectory(sdl2)
-file(GLOB_RECURSE SDL2_INCLUDES "sdl2/include/*")
-file(COPY ${SDL2_INCLUDES} DESTINATION "${CMAKE_BINARY_DIR}/include/SDL2")
+include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
-if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/z80ex/CMakeLists.txt")
-    message(FATAL_ERROR "submodule z80ex is not initialized!")
-endif ()
-add_subdirectory(z80ex)
-file(GLOB_RECURSE Z80EX_INCLUDES "z80ex/include/*")
-file(COPY ${Z80EX_INCLUDES} DESTINATION "${CMAKE_BINARY_DIR}/include/z80ex")
+ExternalProject_Add(
+    sdl2
+    PREFIX SDL2
+
+    GIT_REPOSITORY "https://github.com/spurious/SDL-mirror/"
+    GIT_TAG "release-2.0.12"
+    GIT_SHALLOW ON
+
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
+    INSTALL_COMMAND cmake -E echo "Skipping install step."
+
+    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sdl2"
+)
+
+# Build step here is windows specific, will need to add 
+# a unix variant if we  need to build from source.
+ExternalProject_Add(
+    sdl2_ttf
+    PREFIX SDL2
+
+    GIT_REPOSITORY "https://github.com/davidsiaw/SDL2_ttf"
+    GIT_TAG "master"
+    GIT_SHALLOW ON
+
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
+    CONFIGURE_COMMAND ""
+    INSTALL_COMMAND cmake -E echo "Skipping install step."
+
+    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sdl2_ttf"
+    BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} "${CMAKE_CURRENT_SOURCE_DIR}/sdl2_ttf/VisualC/SDL_ttf.sln" /p:PlatformToolset=v142
+)
+
+ExternalProject_Add(
+    z80ex
+    PREFIX z80ex
+
+    GIT_REPOSITORY "https://github.com/lipro/z80ex/"
+    GIT_TAG "master"
+    GIT_SHALLOW ON
+
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
+    INSTALL_COMMAND cmake -E echo "Skipping install step."
+
+    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/z80ex"
+    CMAKE_ARGS -DRELEASE_TYPE=msemu
+)

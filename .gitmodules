@@ -1,7 +1,0 @@
-[submodule "external/z80ex"]
-	path = external/z80ex
-	url = https://github.com/lipro/z80ex
-[submodule "external/sdl2"]
-	path = external/sdl2
-	url = https://github.com/spurious/SDL-Mirror
-	branch = release-2.0.12
